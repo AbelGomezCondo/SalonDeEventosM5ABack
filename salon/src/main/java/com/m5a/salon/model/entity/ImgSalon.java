@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @AllArgsConstructor
-@Table(name = "ImagenesSalones")
+@Table(name = "Imagenes_Salones")
 @NoArgsConstructor
 public class ImgSalon implements Serializable {
 

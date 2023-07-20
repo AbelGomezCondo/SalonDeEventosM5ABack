@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -41,6 +42,12 @@ public class ReservaController {
         Timestamp fecha = new Timestamp(System.currentTimeMillis());
         r.setResFechaRegistro(fecha);
         return new ResponseEntity<>(reservaService.save(r), HttpStatus.CREATED);
+    }
+    
+     @GetMapping("/listar/{userId}")
+    public ResponseEntity<List<Object[]>> listarReservacionesPorUsuario(@PathVariable Long userId) {
+        List<Object[]> reservas = reservaService.findCustomReservasByUserId(userId);
+        return new ResponseEntity<>(reservas, HttpStatus.OK);
     }
 
     @PutMapping("/actualizar/{id}")

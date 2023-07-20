@@ -8,6 +8,7 @@ import com.m5a.salon.genericService.GenericService;
 import com.m5a.salon.genericService.GenericServiceImpl;
 import com.m5a.salon.model.entity.Reserva;
 import com.m5a.salon.repository.ReservaRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,9 @@ public class ReservaServiceImpl extends GenericServiceImpl<Reserva, Integer> imp
     @Override
     public CrudRepository<Reserva, Integer> getDao() {
         return reservaRepository;
+    }
+    
+   public List<Object[]> findCustomReservasByUserId(Long userId) {
+        return reservaRepository.findCustomReservasByUserId(userId);
     }
 }

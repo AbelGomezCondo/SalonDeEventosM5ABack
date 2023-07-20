@@ -8,6 +8,7 @@ import com.m5a.salon.model.entity.Cotizacion;
 import com.m5a.salon.service.CotizacionServiceImpl;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,13 @@ public class CotizacionController {
         Timestamp fecha = new Timestamp(System.currentTimeMillis());
         c.setCotiFechaRegistro(fecha);
         return new ResponseEntity<>(cotizacionService.save(c), HttpStatus.CREATED);
+    }
+    
+    
+    @GetMapping("/cotizaciones-usuario/{usuarioId}")
+    public ResponseEntity<List<Map<String, Object>>> getCotizacionesByUsuarioId(@PathVariable Long usuarioId) {
+        List<Map<String, Object>> cotizaciones = cotizacionService.findCotizacionesByUsuarioId(usuarioId);
+        return new ResponseEntity<>(cotizaciones, HttpStatus.OK);
     }
 
     @PutMapping("/actualizar/{id}")

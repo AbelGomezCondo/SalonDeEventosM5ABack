@@ -22,31 +22,19 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "SELECT * FROM usuario WHERE usu_nombre_usuario = :usuario", nativeQuery = true)
     Usuario buscarUsuario(@Param("usuario") String usuario);
 
-//    @Query(value = "SELECT u.* "
-//            + "FROM usuario u "
-//            + "JOIN persona p ON u.usu_per_id = p.per_id "
-//            + "JOIN rol r ON u.rol_id = r.rol_id "
-//            + "WHERE u.usu_estado = :rol "
-//            + "  AND (LOWER(p.per_cedula) LIKE '%:busqueda%' "
-//            + "       OR LOWER(u.usu_nombre_usuario) LIKE '%:busqueda%' "
-//            + "       OR LOWER(p.per_nombre) LIKE '%:busqueda%' "
-//            + "       OR LOWER(p.per_apellido) LIKE '%:busqueda%' "
-//            + "       OR LOWER(r.rol_nombre) LIKE '%:busqueda%' "
-//            + "      )", nativeQuery = true) 
-//    List<Usuario> busquedaU(@Param("busqueda") String busqueda, @Param("rol") int rol);
     @Query(value = "SELECT u.* "
             + "FROM usuario u "
             + "JOIN persona p ON u.usu_per_id = p.per_id "
             + "JOIN rol r ON u.rol_id = r.rol_id "
-            + "WHERE u.usu_estado = :rol "
+            + "WHERE u.usu_estado = :est "
             + "  AND (LOWER(p.per_cedula) LIKE CONCAT('%', :busqueda, '%') "
             + "       OR LOWER(u.usu_nombre_usuario) LIKE CONCAT('%', :busqueda, '%') "
             + "       OR LOWER(p.per_nombre) LIKE CONCAT('%', :busqueda, '%') "
             + "       OR LOWER(p.per_apellido) LIKE CONCAT('%', :busqueda, '%') "
             + "       OR LOWER(r.rol_nombre) LIKE CONCAT('%', :busqueda, '%') "
             + "      )", nativeQuery = true)
-    List<Usuario> busquedaU(@Param("busqueda") String busqueda, @Param("rol") int rol);
-
+    List<Usuario> busquedaU(@Param("busqueda") String busqueda, @Param("est") int est);
+ 
     @Query(value = "SELECT * FROM usuario WHERE usu_nombre_usuario = :usuario AND usu_contrasena = :password", nativeQuery = true)
     public Usuario login(@Param("usuario") String usuario, @Param("password") String password);
 }

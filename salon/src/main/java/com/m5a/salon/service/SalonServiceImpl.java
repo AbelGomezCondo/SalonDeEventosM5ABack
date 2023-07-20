@@ -8,6 +8,7 @@ import com.m5a.salon.genericService.GenericService;
 import com.m5a.salon.genericService.GenericServiceImpl;
 import com.m5a.salon.model.entity.Salon;
 import com.m5a.salon.repository.SalonRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,22 @@ import org.springframework.stereotype.Service;
 public class SalonServiceImpl extends GenericServiceImpl<Salon, Integer> implements GenericService<Salon, Integer> {
 
     @Autowired
-    public SalonRepository salonRepository;
+    public SalonRepository repository;
 
     @Override
     public CrudRepository<Salon, Integer> getDao() {
-        return salonRepository;
+        return repository;
     }
 
     public Salon buscarPorId(int id) {
-        return salonRepository.buscarSalonPorID(id);
+        return repository.buscarSalonPorID(id);
+    }
+
+    public List<Salon> buscarSal(String busqueda) {
+        return repository.buscarSal(busqueda);
+    }
+
+    public List<Salon> listarEstado(int est) {
+        return repository.listarXestado(est);
     }
 }

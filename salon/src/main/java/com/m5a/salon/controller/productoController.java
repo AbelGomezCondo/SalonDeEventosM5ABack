@@ -36,6 +36,21 @@ public class productoController {
         return new ResponseEntity<>(service.findByAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/listar/{est}")
+    public ResponseEntity<List<ProductoServicio>> listarProductosEst(@PathVariable int est) {
+        return new ResponseEntity<>(service.listarPS(est), HttpStatus.OK);
+    }
+
+    @GetMapping("/busqueda/{busqueda}/{est}")
+    public ResponseEntity<List<ProductoServicio>> busquedaUsuarios(@PathVariable String busqueda, @PathVariable int est) {
+        return new ResponseEntity<>(service.busquedaPS(busqueda, est), HttpStatus.OK);
+    }
+
+    @GetMapping("/buscar/{id}")
+    public ProductoServicio buscarUsuId(@PathVariable Integer id) {
+        return service.findById(id);
+    }
+
     @PostMapping("/crear")
     public ResponseEntity<ProductoServicio> crearProductos(@RequestBody ProductoServicio ps) {
         Timestamp fecha = new Timestamp(System.currentTimeMillis());
@@ -56,6 +71,24 @@ public class productoController {
                 producto.setProdDescripcion(ps.getProdDescripcion());
                 producto.setCatId(ps.getCatId());
                 producto.setTipId(ps.getTipId());
+
+                return new ResponseEntity<>(service.save(producto), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/actualizarEst/{id}/{estado}")
+    public ResponseEntity<ProductoServicio> actualizarEstado(@PathVariable Integer id, @PathVariable Integer estado) {
+        ProductoServicio producto = service.findById(id);
+        if (producto != null) {
+            try {
+
+                producto.setProdEstado(estado);
 
                 return new ResponseEntity<>(service.save(producto), HttpStatus.CREATED);
             } catch (Exception e) {

@@ -43,9 +43,9 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.findByAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/busqueda/{busqueda}/{rol}")
-    public ResponseEntity<List<Usuario>> busquedaUsuarios(@PathVariable String busqueda, @PathVariable int rol) {
-        return new ResponseEntity<>(usuarioService.busquedaUsu(busqueda,rol), HttpStatus.OK);
+    @GetMapping("/busqueda/{busqueda}/{est}")
+    public ResponseEntity<List<Usuario>> busquedaUsuarios(@PathVariable String busqueda, @PathVariable int est) {
+        return new ResponseEntity<>(usuarioService.busquedaUsu(busqueda,est), HttpStatus.OK);
     }
 
     //LOG IN
@@ -115,7 +115,7 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/eliminarE/{id}/{estado}")
+    @PutMapping("/actualizarEst/{id}/{estado}")
     public ResponseEntity<Usuario> actualizarEstado(@PathVariable Integer id, @PathVariable Integer estado) {
         Usuario encontrado = usuarioService.findById(id);
 

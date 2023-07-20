@@ -36,8 +36,8 @@ public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Integer> imp
         return usuarioRepository.buscarUsuario(usuario);
     }
 
-    public List<Usuario> busquedaUsu(String busqueda, int rol){
-        return usuarioRepository.busquedaU(busqueda, rol);
+    public List<Usuario> busquedaUsu(String busqueda, int est){
+        return usuarioRepository.busquedaU(busqueda, est);
     }
 
     public boolean usuarioExiste(String usuario) {

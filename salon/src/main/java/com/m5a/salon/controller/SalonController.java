@@ -29,44 +29,38 @@ import org.springframework.web.bind.annotation.RestController;
 public class SalonController {
 
     @Autowired
-    public SalonServiceImpl salonService;
+    public SalonServiceImpl service;
 
     @GetMapping("/listar")
     public ResponseEntity<List<Salon>> listarSalones() {
-        return new ResponseEntity<>(salonService.findByAll(), HttpStatus.OK);
+        return new ResponseEntity<>(service.findByAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/listar/{est}")
+    public ResponseEntity<List<Salon>> listarEst(@PathVariable int est) {
+        return new ResponseEntity<>(service.listarEstado(est), HttpStatus.OK);
     }
 
     @PostMapping("/crear")
     public ResponseEntity<Salon> crearSalon(@RequestBody Salon s) {
         Timestamp fecha = new Timestamp(System.currentTimeMillis());
         s.setSalFechaRegistro(fecha);
-        return new ResponseEntity<>(salonService.save(s), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.save(s), HttpStatus.CREATED);
     }
 
     @GetMapping("/salonporid/{id}")
     public ResponseEntity<Salon> salonPorId(@PathVariable int id) {
-        return ResponseEntity.ok(salonService.buscarPorId(id));
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
-    @PutMapping("/eliminarE/{id}")
-    public ResponseEntity<Salon> actualizarEstadoSalon(@PathVariable Integer id) {
-        Salon salon = salonService.findById(id);
-        if (salon != null) {
-            try {
-                salon.setSalEstado(0);
-                return new ResponseEntity<>(salonService.save(salon), HttpStatus.CREATED);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/busqueda/{busqueda}")
+    public ResponseEntity<List<Salon>> buscarSalon(@PathVariable String busqueda) {
+        return new ResponseEntity<>(service.buscarSal(busqueda), HttpStatus.OK);
     }
 
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<Salon> actualizarSalon(@PathVariable Integer id, @RequestBody Salon s) {
-        Salon salon = salonService.findById(id);
+        Salon salon = service.findById(id);
         if (salon != null) {
             try {
                 salon.setSalCapacidad(s.getSalCapacidad());
@@ -76,7 +70,25 @@ public class SalonController {
                 salon.setListaCotizaciones(s.getListaCotizaciones());
                 salon.setSalNombre(s.getSalNombre());
                 salon.setSalFechaRegistro(s.getSalFechaRegistro());
-                return new ResponseEntity<>(salonService.save(salon), HttpStatus.CREATED);
+                return new ResponseEntity<>(service.save(salon), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/actualizarEst/{id}/{estado}")
+    public ResponseEntity<Salon> actualizarEstado(@PathVariable Integer id, @PathVariable Integer estado) {
+        Salon salon = service.findById(id);
+        if (salon != null) {
+            try {
+
+                salon.setSalEstado(estado);
+
+                return new ResponseEntity<>(service.save(salon), HttpStatus.CREATED);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -88,7 +100,7 @@ public class SalonController {
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Salon> elimiarRol(@PathVariable Integer id) {
-        salonService.delete(id);
+        service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

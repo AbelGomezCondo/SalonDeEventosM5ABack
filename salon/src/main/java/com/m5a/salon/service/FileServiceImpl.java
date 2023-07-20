@@ -66,10 +66,10 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
+//    @Override
+//    public void deleteAll() {
+//        FileSystemUtils.deleteRecursively(root.toFile());
+//    }
 
     @Override
     public Stream<Path> loadAll() {

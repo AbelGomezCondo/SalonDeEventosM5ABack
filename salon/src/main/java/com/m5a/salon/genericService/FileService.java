@@ -34,7 +34,7 @@ public interface FileService {
     /*
     Metodo para borrar todos los archivos cada vez que se inicie el servidor
      */
-    public void deleteAll();
+//    public void deleteAll();
 
     /*
     Metodo para Cargar todos los archivos

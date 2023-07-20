@@ -35,6 +35,11 @@ public class ImgProductosController {
         return new ResponseEntity<>(imagenesProductosService.findByAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/busqueda/{prod}")
+    public ResponseEntity<List<ImgProducto>> imgProdId(@PathVariable int prod) {
+        return new ResponseEntity<>(imagenesProductosService.imgProdId(prod), HttpStatus.OK);
+    } 
+
     @PostMapping("/crear")
     public ResponseEntity<ImgProducto> crearImg(@RequestBody ImgProducto img) {
         return new ResponseEntity<>(imagenesProductosService.save(img), HttpStatus.CREATED);
